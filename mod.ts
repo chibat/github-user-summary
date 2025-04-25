@@ -91,7 +91,10 @@ if (import.meta.main) {
   const user = Deno.args[0];
   const token = Deno.env.get("GITHUB_TOKEN");
   const result = await sum(user, { maxPage, token });
-  console.log("stargazers_count: " + result.stargazers_count);
-  console.log("repositories_count: " + result.repositories_count);
-  console.log("all: " + result.all);
+  console.log(`
+User: ${user}
+Stargazers: ${result.stargazers_count}
+Repositories: ${result.repositories_count}
+All: ${result.all}
+`);
 }

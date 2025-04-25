@@ -14,7 +14,9 @@ Environment variables:
   GITHUB_TOKEN: GitHub token(Optional)
 
 $ deno -rA jsr:@chiba/github-user-summary chibat
-stargazers_count: 2916
-repositories_count: 102
-all: true
+
+User: chibat
+Stargazers: 2918
+Repositories: 102
+All: true
 ```
