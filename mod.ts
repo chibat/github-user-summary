@@ -1,19 +1,50 @@
 #!/usr/bin/env -S deno run --env-file -E=GITHUB_TOKEN -N=api.github.com:443
 
+/**
+ * github-user-summary
+ *
+ * @example
+ * ```
+ * $ deno -rA jsr:@chiba/github-user-summary chibat
+ * stargazers_count: 2916
+ * repositories_count: 102
+ * all: true
+ * ```
+ *
+ * @module
+ */
+
 const DEFAULT_MAX = 10;
 const PER_PAGE = 100;
 
+/**
+ * Options
+ */
 export interface Options {
   maxPage: number;
   token?: string;
 }
 
+/**
+ * Result
+ */
+export interface Result {
+  stargazers_count: number;
+  repositories_count: number;
+  all: boolean;
+}
+
+/**
+ * sum
+ * 
+ * @param user
+ * @param options
+ * @returns result
+ */
 export async function sum(
   user: string,
   options: Options = { maxPage: DEFAULT_MAX, token: undefined },
-): Promise<
-  { stargazers_count: number; repositories_count: number; all: boolean }
-> {
+): Promise<Result> {
   const encoded = encodeURIComponent(user);
   let stargazers_count = 0;
   let repositories_count = 0;

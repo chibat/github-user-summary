@@ -1,6 +1,6 @@
 {
   "name": "@chiba/github-user-summary",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "exports": "./mod.ts",
   "tasks": {
     "run": "deno run -E=GITHUB_TOKEN -N=api.github.com:443 mod.ts chibat",
