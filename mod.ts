@@ -1,9 +1,8 @@
 #!/usr/bin/env -S deno run --env-file -E=GITHUB_TOKEN -N=api.github.com:443
 
 /**
- * github-user-summary
- *
  * @module
+ * github-user-summary
  */
 
 const DEFAULT_MAX = 10;
