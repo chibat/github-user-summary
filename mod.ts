@@ -36,7 +36,7 @@ export interface Result {
 
 /**
  * sum
- * 
+ *
  * @param user
  * @param options
  * @returns result
@@ -74,8 +74,15 @@ export async function sum(
 }
 
 function usageExit() {
-  console.log(`USAGE: deno run ${import.meta.filename} USER [MAX_PAGE]`);
-  console.log("  MAX_PAGE: 1 or more");
+  const script = import.meta.filename || "jsr:@chiba/github-user-summary";
+  console.log(`
+Usage: deno run ${script} <USER> [MAX_PAGE]
+  USER: GitHub user name or organization name
+  MAX_PAGE: 1 or more. default: 10
+
+Environment variables:
+  GITHUB_TOKEN: GitHub token
+`);
   Deno.exit(0);
 }
 
