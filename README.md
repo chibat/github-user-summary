@@ -1,5 +1,8 @@
 # github-user-summary
 
+[![JSR](https://jsr.io/badges/@chiba/github-user-summary)](https://jsr.io/@chiba/github-user-summary)
+[![JSR Score](https://jsr.io/badges/@chiba/github-user-summary/score)](https://jsr.io/@chiba/github-user-summary)
+
 ```
 $ deno -r jsr:@chiba/github-user-summary
 
