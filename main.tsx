@@ -40,6 +40,7 @@ app.get("/", async (c) => {
           <div class="terminal-nav">
             <div class="logo">github-user-summary</div>
           </div>
+          <a href="https://github.com/chibat/github-user-summary" target="_blank">source</a>
           <form>
             <input
               type="text"
