@@ -3,6 +3,8 @@
 [![JSR](https://jsr.io/badges/@chiba/github-user-summary)](https://jsr.io/@chiba/github-user-summary)
 [![JSR Score](https://jsr.io/badges/@chiba/github-user-summary/score)](https://jsr.io/@chiba/github-user-summary)
 
+## CLI
+
 ```
 $ deno -r jsr:@chiba/github-user-summary
 
@@ -16,7 +18,9 @@ Environment variables:
 $ deno -rA jsr:@chiba/github-user-summary chibat
 
 User: chibat
-Stargazers: 2918
+Stargazers⭐: 2918
 Repositories: 102
 All: true
 ```
+
+## Web

@@ -1,13 +1,19 @@
 {
   "name": "@chiba/github-user-summary",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "exports": "./mod.ts",
   "tasks": {
+    "dev": "deno run --watch --env-file -R -N=:8000,api.github.com:443 --unstable-kv main.tsx",
     "run": "deno run -E=GITHUB_TOKEN -N=api.github.com:443 mod.ts chibat",
     "test": "deno test -E=GITHUB_TOKEN -N=api.github.com:443"
   },
   "license": "MIT",
   "imports": {
+    "@hono/hono": "jsr:@hono/hono@^4.7.7",
     "@std/assert": "jsr:@std/assert@1"
+  },
+  "compilerOptions": {
+    "jsx": "precompile",
+    "jsxImportSource": "@hono/hono/jsx"
   }
 }

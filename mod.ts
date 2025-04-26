@@ -93,7 +93,7 @@ if (import.meta.main) {
   const result = await sum(user, { maxPage, token });
   console.log(`
 User: ${user}
-Stargazers: ${result.stargazers_count}
+Stargazers⭐: ${result.stargazers_count}
 Repositories: ${result.repositories_count}
 All: ${result.all}
 `);
