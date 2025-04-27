@@ -13,11 +13,15 @@ app.get("/", async (c) => {
   let result: Result | null = null;
   let cache = true;
   if (user) {
-    const entry = await kv.get<Result>(["user", user]);
+    const key = ["user", user];
+    if (c.req.header("Cache-Control") === "no-cache") {
+      await kv.delete(key);
+    };
+    const entry = await kv.get<Result>(key);
     result = entry.value;
     if (!result) {
       result = await sum(user);
-      kv.set(["user", user], result, { expireIn });
+      kv.set(key, result, { expireIn });
       cache = false;
     }
   }
