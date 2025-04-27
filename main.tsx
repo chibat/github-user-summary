@@ -11,12 +11,14 @@ app.use("/static/*", serveStatic({ root: "./" }));
 app.get("/", async (c) => {
   const user = c.req.query("u");
   let result: Result | null = null;
+  let cache = true;
   if (user) {
     const entry = await kv.get<Result>(["user", user]);
     result = entry.value;
     if (!result) {
       result = await sum(user);
       kv.set(["user", user], result, { expireIn });
+      cache = false;
     }
   }
   return c.html(
@@ -53,19 +55,19 @@ app.get("/", async (c) => {
           {result && (
             <table>
               <tr>
-                <th>Stargazers ⭐</th>
-                <td>{result.stargazers_count}</td>
+                <th>Stars ⭐</th>
+                <td style="text-align: right">{result.stargazers_count.toLocaleString()}</td>
               </tr>
               <tr>
                 <th>Repositories</th>
-                <td>{result.repositories_count}</td>
-              </tr>
-              <tr>
-                <th>All</th>
-                <td>{"" + result.all}</td>
+                <td style="text-align: right">{result.repositories_count.toLocaleString()}</td>
               </tr>
             </table>
           )}
+          <ul>
+            <li>all: {"" + result?.all}</li>
+            <li>cache: {"" + cache}</li>
+          </ul>
         </div>
       </body>
     </html>,
