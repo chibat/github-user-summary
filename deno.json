@@ -1,6 +1,6 @@
 {
   "name": "@chiba/github-user-summary",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "exports": "./mod.ts",
   "tasks": {
     "dev": "deno run --watch --env-file -R -N=:8000,api.github.com:443 --unstable-kv main.tsx",

@@ -24,6 +24,8 @@ export interface Result {
   forks_count: number;
   repositories_count: number;
   all: boolean;
+  type?: string;
+  avatar_url?: string;
 }
 
 /**
@@ -46,6 +48,11 @@ export async function sum(
   if (options.token) {
     headers["Authorization"] = `Bearer ${options.token}`;
   }
+  let json: {
+    stargazers_count: number;
+    forks_count: number;
+    owner: { type: string; avatar_url: string };
+  }[] = [];
   for (; page <= options.maxPage; page++) {
     const res = await fetch(
       `https://api.github.com/users/${encoded}/repos?page=${page}&per_page=${PER_PAGE}&sort=updated`,
@@ -54,18 +61,35 @@ export async function sum(
     if (!res.ok) {
       throw new Error(res.statusText);
     }
-    const json: { stargazers_count: number; forks_count: number }[] = await res
-      .json();
+    json = await res.json();
     repositories_count += json.length;
     for (const row of json) {
       stargazers_count += row.stargazers_count;
       forks_count += row.forks_count;
     }
     if (json.length < 100) {
-      return { stargazers_count, forks_count, repositories_count, all: true };
+      const type = json.at(0)?.owner.type;
+      const avatar_url = json.at(0)?.owner.avatar_url;
+      return {
+        stargazers_count,
+        forks_count,
+        repositories_count,
+        all: true,
+        type,
+        avatar_url,
+      };
     }
   }
-  return { stargazers_count, forks_count, repositories_count, all: false };
+  const type = json.at(0)?.owner.type;
+  const avatar_url = json.at(0)?.owner.avatar_url;
+  return {
+    stargazers_count,
+    forks_count,
+    repositories_count,
+    all: false,
+    type,
+    avatar_url,
+  };
 }
 
 function usageExit() {
@@ -96,7 +120,7 @@ if (import.meta.main) {
   const token = Deno.env.get("GITHUB_TOKEN");
   const result = await sum(user, { maxPage, token });
   console.log(`
-User: ${user}
+${result.type ?? "User"}: ${user}
 Stars⭐: ${result.stargazers_count}
 Forks: ${result.forks_count}
 Repositories: ${result.repositories_count}

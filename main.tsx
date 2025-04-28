@@ -57,7 +57,20 @@ app.get("/", async (c) => {
           </form>
           {result && (
             <>
+              {result.avatar_url && (
+                <img
+                  src={result.avatar_url}
+                  alt={user}
+                  style="width: 100px;"
+                />
+              )}
               <table>
+                <tr>
+                  <th>Type</th>
+                  <td>
+                    {result.type}
+                  </td>
+                </tr>
                 <tr>
                   <th>Stars ⭐</th>
                   <td style="text-align: right">
