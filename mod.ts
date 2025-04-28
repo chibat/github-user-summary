@@ -21,6 +21,7 @@ export interface Options {
  */
 export interface Result {
   stargazers_count: number;
+  forks_count: number;
   repositories_count: number;
   all: boolean;
 }
@@ -38,6 +39,7 @@ export async function sum(
 ): Promise<Result> {
   const encoded = encodeURIComponent(user);
   let stargazers_count = 0;
+  let forks_count = 0;
   let repositories_count = 0;
   let page = 1;
   const headers: HeadersInit = { "Accept": "application/vnd.github+json" };
@@ -52,16 +54,18 @@ export async function sum(
     if (!res.ok) {
       throw new Error(res.statusText);
     }
-    const json: { stargazers_count: number }[] = await res.json();
+    const json: { stargazers_count: number; forks_count: number }[] = await res
+      .json();
     repositories_count += json.length;
     for (const row of json) {
       stargazers_count += row.stargazers_count;
+      forks_count += row.forks_count;
     }
     if (json.length < 100) {
-      return { stargazers_count, repositories_count, all: true };
+      return { stargazers_count, forks_count, repositories_count, all: true };
     }
   }
-  return { stargazers_count, repositories_count, all: false };
+  return { stargazers_count, forks_count, repositories_count, all: false };
 }
 
 function usageExit() {
@@ -93,7 +97,8 @@ if (import.meta.main) {
   const result = await sum(user, { maxPage, token });
   console.log(`
 User: ${user}
-Stargazers⭐: ${result.stargazers_count}
+Stars⭐: ${result.stargazers_count}
+Forks: ${result.forks_count}
 Repositories: ${result.repositories_count}
 All: ${result.all}
 `);

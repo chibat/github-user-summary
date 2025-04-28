@@ -16,7 +16,7 @@ app.get("/", async (c) => {
     const key = ["user", user];
     if (c.req.header("Cache-Control") === "no-cache") {
       await kv.delete(key);
-    };
+    }
     const entry = await kv.get<Result>(key);
     result = entry.value;
     if (!result) {
@@ -46,7 +46,6 @@ app.get("/", async (c) => {
           <div class="terminal-nav">
             <div class="logo">github-user-summary</div>
           </div>
-          <a href="https://github.com/chibat/github-user-summary" target="_blank">source</a>
           <form>
             <input
               type="text"
@@ -57,21 +56,39 @@ app.get("/", async (c) => {
             />
           </form>
           {result && (
-            <table>
-              <tr>
-                <th>Stars ⭐</th>
-                <td style="text-align: right">{result.stargazers_count.toLocaleString()}</td>
-              </tr>
-              <tr>
-                <th>Repositories</th>
-                <td style="text-align: right">{result.repositories_count.toLocaleString()}</td>
-              </tr>
-            </table>
+            <>
+              <table>
+                <tr>
+                  <th>Stars ⭐</th>
+                  <td style="text-align: right">
+                    {result.stargazers_count.toLocaleString()}
+                  </td>
+                </tr>
+                <tr>
+                  <th>Forks</th>
+                  <td style="text-align: right">
+                    {result.forks_count.toLocaleString()}
+                  </td>
+                </tr>
+                <tr>
+                  <th>Repositories</th>
+                  <td style="text-align: right">
+                    {result.repositories_count.toLocaleString()}
+                  </td>
+                </tr>
+              </table>
+              <ul>
+                <li>all: {"" + result?.all}</li>
+                <li>cache: {"" + cache}</li>
+              </ul>
+            </>
           )}
-          <ul>
-            <li>all: {"" + result?.all}</li>
-            <li>cache: {"" + cache}</li>
-          </ul>
+          <a
+            href="https://github.com/chibat/github-user-summary"
+            target="_blank"
+          >
+            source
+          </a>
         </div>
       </body>
     </html>,
