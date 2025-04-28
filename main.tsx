@@ -2,8 +2,7 @@ import { Hono } from "@hono/hono";
 import { serveStatic } from "@hono/hono/deno";
 import { type Result, sum } from "./mod.ts";
 
-// const expireIn = 1000 * 60; // 1 minute
-const expireIn = 60;
+const expireIn = 1000 * 60; // 1 minute
 const app = new Hono();
 const kv = await Deno.openKv();
 
