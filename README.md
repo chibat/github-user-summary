@@ -5,6 +5,8 @@
 
 ## CLI
 
+### JSR
+
 ```
 $ deno -r jsr:@chiba/github-user-summary
 
@@ -18,11 +20,41 @@ Environment variables:
 $ deno -rA jsr:@chiba/github-user-summary chibat
 
 User: chibat
-Stargazers⭐: 2918
+Stars⭐: 2920
+Forks: 483
 Repositories: 102
 All: true
 ```
 
+### Repository
+
+```
+$ deno task cli chibat
+```
+
 ## Web
 
+### Deno Deploy
+
 https://github-user-summary.deno.dev/
+
+### Locally
+
+#### JSR
+
+```
+$ deno -rA --unstable-kv jsr:@chiba/github-user-summary/web
+```
+open http://localhost:8000/
+
+#### Repository
+
+```
+$ deno task web
+```
+open http://localhost:8000/
+
+## API
+
+https://jsr.io/@chiba/github-user-summary/doc
+
