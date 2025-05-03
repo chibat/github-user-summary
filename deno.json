@@ -1,7 +1,10 @@
 {
   "name": "@chiba/github-user-summary",
-  "version": "0.1.10",
-  "exports": "./mod.ts",
+  "version": "0.1.11",
+  "exports": {
+    ".": "./mod.ts",
+    "./web": "./main.tsx"
+  },
   "tasks": {
     "dev": "deno run --watch --env-file -R -N=:8000,api.github.com:443 --unstable-kv main.tsx",
     "run": "deno run -E=GITHUB_TOKEN -N=api.github.com:443 mod.ts chibat",
