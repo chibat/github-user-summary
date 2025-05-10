@@ -38,7 +38,7 @@ export interface Result {
 export async function sum(
   user: string,
   options: Options = { maxPage: DEFAULT_MAX, token: undefined },
-): Promise<Result> {
+): Promise<Result | null> {
   const encoded = encodeURIComponent(user);
   let stargazers_count = 0;
   let forks_count = 0;
@@ -58,6 +58,9 @@ export async function sum(
       `https://api.github.com/users/${encoded}/repos?page=${page}&per_page=${PER_PAGE}&sort=updated`,
       { headers },
     );
+    if (res.status >= 400 && res.status < 500) {
+      return null;
+    }
     if (!res.ok) {
       throw new Error(res.statusText);
     }
@@ -119,6 +122,10 @@ if (import.meta.main) {
   const user = Deno.args[0];
   const token = Deno.env.get("GITHUB_TOKEN");
   const result = await sum(user, { maxPage, token });
+  if (!result) {
+    console.error(`User ${user} not found`);
+    Deno.exit(1);
+  }
   console.log(`
 ${result.type ?? "User"}: ${user}
 Stars⭐: ${result.stargazers_count}

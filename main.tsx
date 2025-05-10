@@ -11,6 +11,7 @@ app.use("/static/*", serveStatic({ root: "./" }));
 app.get("/", async (c) => {
   const user = c.req.query("u");
   let result: Result | null = null;
+  let message: string | null = null;
   let cache = true;
   if (user) {
     const key = ["user", user];
@@ -21,8 +22,12 @@ app.get("/", async (c) => {
     result = entry.value;
     if (!result) {
       result = await sum(user);
-      kv.set(key, result, { expireIn });
-      cache = false;
+      if (result) {
+        kv.set(key, result, { expireIn });
+        cache = false;
+      } else {
+        message = "User not found";
+      }
     }
   }
   return c.html(
@@ -55,6 +60,9 @@ app.get("/", async (c) => {
               autofocus
             />
           </form>
+          {message && (
+            <div>{message}</div>
+          )}
           {result && (
             <>
               {result.avatar_url && (
