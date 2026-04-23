@@ -36,7 +36,7 @@ $ deno task cli chibat
 
 ### Deno Deploy
 
-https://github-user-summary.deno.dev/
+https://github-user-summary.ct.deno.net/
 
 ### Locally
 
