@@ -1,0 +1,36 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "github-user-summary",
+  "main": "main.tsx",
+  "compatibility_date": "2026-10-10",
+  "assets": {
+    "directory": "./static",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/static/*",
+      "/"
+    ]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "GITHUB_USER_SUMMARY_CACHE",
+      "id": "5ff78248d8e842f088b5c61335607f2a"
+    }
+  ],
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    },
+    "traces": {
+      "enabled": false,
+      "head_sampling_rate": 1,
+      "persist": true
+    },
+    "issues": {
+      "enabled": false
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+    "strict": true,
+    "noEmit": true,
+    "types": ["@cloudflare/workers-types", "node"],
+    "allowImportingTsExtensions": true,
+    "skipLibCheck": true
+  },
+  "include": ["main.tsx", "github.ts", "cli.ts"]
+}
