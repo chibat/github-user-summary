@@ -1,6 +1,6 @@
 {
   "name": "@chibat/github-user-summary",
-  "version": "0.1.15",
+  "version": "0.1.17",
   "description": "Summarize stars, forks, and repositories for a GitHub user or organization.",
   "type": "module",
   "engines": {

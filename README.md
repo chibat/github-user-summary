@@ -1,4 +1,8 @@
+[![NPM](https://nodei.co/npm/@chibat/github-user-summary.svg?style=shields&data=n,v,u,d&color=blue)](https://www.npmjs.com/package/@chibat/github-user-summary)
+
 # github-user-summary
+A CLI and Cloudflare Workers app for summarizing repository, star, and fork counts for GitHub users and organizations.
+
 
 ## CLI
 
@@ -23,15 +27,15 @@ Tests can be run with `npm test`.
 
 ### Cloudflare Workers
 
+https://github-user-summary.chiba.dev
+
 1. Install dependencies with `npm install`.
-2. Create a KV namespace with `npx wrangler kv namespace create GITHUB_USER_SUMMARY_CACHE`, then
-   replace `REPLACE_WITH_KV_NAMESPACE_ID` in `wrangler.jsonc` with its ID. The
-   Worker binding name is `GITHUB_USER_SUMMARY_CACHE`.
-3. For local development, run `npm run dev` and open http://localhost:8787/.
-4. Deploy with `npm run deploy`. Add an optional GitHub token with
-   `npx wrangler secret put GITHUB_TOKEN`.
+2. For local development, run `npm run dev` and open http://localhost:8787/.
+3. Deploy with `npm run deploy`.
 
 ## Publishing
+
+https://www.npmjs.com/package/@chibat/github-user-summary
 
 The npm package is published by pushing a `v*` tag or manually running the
 Publish workflow. Configure the repository's `NPM_TOKEN` secret first.
