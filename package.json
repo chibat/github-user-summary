@@ -1,0 +1,58 @@
+{
+  "name": "@chibat/github-user-summary",
+  "version": "0.1.17",
+  "description": "Summarize stars, forks, and repositories for a GitHub user or organization.",
+  "type": "module",
+  "engines": {
+    "node": ">=18.20.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chibat/github-user-summary.git"
+  },
+  "homepage": "https://github.com/chibat/github-user-summary#readme",
+  "keywords": [
+    "github",
+    "stars",
+    "repositories",
+    "summary"
+  ],
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "github-user-summary": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/github.d.ts",
+      "import": "./dist/github.js"
+    }
+  },
+  "types": "./dist/github.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "tsc -p tsconfig.build.json && node scripts/set-cli-mode.js",
+    "prepack": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "cli": "npm run build && node dist/cli.js",
+    "test": "npm run build && node --test"
+  },
+  "dependencies": {
+    "hono": "^4.7.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261006.1",
+    "@types/node": "^26.6.5",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.0.0"
+  }
+}

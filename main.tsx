@@ -1,12 +1,19 @@
-import { Hono } from "@hono/hono";
-import { serveStatic } from "@hono/hono/deno";
-import { type Result, sum } from "./mod.ts";
+import { Hono } from "hono";
+import { GitHubApiError, type Result, sum } from "./github.ts";
 
 const expireIn = 1000 * 60; // 1 minute
-const app = new Hono();
-const kv = await Deno.openKv();
+type Bindings = {
+  ASSETS: Fetcher;
+  GITHUB_USER_SUMMARY_CACHE: KVNamespace;
+  GITHUB_TOKEN?: string;
+};
+const app = new Hono<{ Bindings: Bindings }>();
 
-app.use("/static/*", serveStatic({ root: "./" }));
+app.get("/static/*", (c) => {
+  const assetUrl = new URL(c.req.url);
+  assetUrl.pathname = assetUrl.pathname.replace(/^\/static/, "");
+  return c.env.ASSETS.fetch(assetUrl);
+});
 
 app.get("/", async (c) => {
   const user = c.req.query("u");
@@ -14,19 +21,26 @@ app.get("/", async (c) => {
   let message: string | null = null;
   let cache = true;
   if (user) {
-    const key = ["user", user];
+    const key = `user:${user}`;
     if (c.req.header("Cache-Control") === "no-cache") {
-      await kv.delete(key);
+      await c.env.GITHUB_USER_SUMMARY_CACHE.delete(key);
     }
-    const entry = await kv.get<Result>(key);
-    result = entry.value;
+    result = await c.env.GITHUB_USER_SUMMARY_CACHE.get<Result>(key, "json");
     if (!result) {
-      result = await sum(user);
-      if (result) {
-        kv.set(key, result, { expireIn });
+      try {
+        result = await sum(user, {
+          maxPage: 10,
+          token: c.env.GITHUB_TOKEN,
+        });
+        await c.env.GITHUB_USER_SUMMARY_CACHE.put(key, JSON.stringify(result), {
+          expirationTtl: expireIn / 1000,
+        });
         cache = false;
-      } else {
-        message = "User not found";
+      } catch (error) {
+        if (!(error instanceof GitHubApiError)) {
+          throw error;
+        }
+        message = error.message;
       }
     }
   }
@@ -116,4 +130,4 @@ app.get("/", async (c) => {
   );
 });
 
-Deno.serve(app.fetch);
+export default app;
